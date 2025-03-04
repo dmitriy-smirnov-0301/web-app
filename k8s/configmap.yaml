@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: ice-creams-app-config
+  namespace: default
+data:
+  APP_ENV: "kubernetes"
+  DB_HOST: "postgres"
+  DB_PORT: "5432"
+  DB_NAME_ICECREAMS_CATALOG: "icecreams_catalog"
+  DB_NAME_USER_DATA: "user_data"
+  DB_SSLMODE: "disable"
+  DB_CONNTIMEOUT: "10"
+  init-db.sql: |
+    CREATE DATABASE icecreams_catalog;
+    CREATE DATABASE user_data;

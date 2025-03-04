@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ice-creams-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: ice-creams-app
+  template:
+    metadata:
+      labels:
+        app: ice-creams-app
+    spec:
+      containers:
+      - name: ice-creams-app
+        image: dmitriysmirnov0301/ice-creams-app:latest
+        ports:
+        - containerPort: 8080
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 15
+          periodSeconds: 300
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 120
+        envFrom:
+        - configMapRef:
+            name: ice-creams-app-config
+        - secretRef:
+            name: ice-creams-app-secret
